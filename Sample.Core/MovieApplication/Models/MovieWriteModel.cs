@@ -2,7 +2,7 @@
 
 namespace Sample.Core.MovieApplication.Models
 {
-    internal class MovieWriteModel
+    public class MovieWriteModel
     {
         public int Id { get; set; }
 
