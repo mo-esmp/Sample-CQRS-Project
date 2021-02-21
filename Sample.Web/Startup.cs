@@ -35,7 +35,7 @@ namespace Sample.Web
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer("Data Source=.;Initial Catalog=SampleCqrs;Integrated Security=true");
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"));
             });
 
             #endregion DbContext
@@ -50,8 +50,8 @@ namespace Sample.Web
 
             #region Mongo Singleton Injection
 
-            var mongoClient = new MongoClient("mongodb://localhost:27017");
-            var mongoDatabase = mongoClient.GetDatabase("moviesdatabase");
+            var mongoClient = new MongoClient(Configuration.GetConnectionString("MongoConnection"));
+            var mongoDatabase = mongoClient.GetDatabase(Configuration.GetConnectionString("MongoDatabase"));
             services.AddSingleton(mongoDatabase);
 
             #endregion Mongo Singleton Injection
