@@ -8,7 +8,7 @@ namespace Sample.Core.MovieApplication.Models
 
         public string Name { get; set; }
 
-        public DateTime PublishYear { get; set; }
+        public DateTime PublishDate { get; set; }
 
         public decimal ImdbRate { get; set; }
 

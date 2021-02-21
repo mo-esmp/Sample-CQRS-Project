@@ -1,20 +1,21 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using Sample.Core.Common.BaseChannel;
 using Sample.Core.Common.Pipelines;
 using Sample.Core.MovieApplication.BackgroundWorker.AddReadMovie;
 using Sample.Core.MovieApplication.BackgroundWorker.DeleteReadMovie;
-using Sample.DAL;
-using Sample.DAL.ReadRepositories;
-using Sample.DAL.WriteRepositories;
-using MongoDB.Driver;
 using Sample.Core.MovieApplication.Commands.AddMovie;
+using Sample.Core.MovieApplication.Repositories;
+using Sample.DAL.EntityFramework;
+using Sample.DAL.EntityFramework.WriteRepositories;
+using Sample.DAL.Mongo.ReadRepositories;
 
 namespace Sample.Web
 {
@@ -31,18 +32,21 @@ namespace Sample.Web
         public void ConfigureServices(IServiceCollection services)
         {
             #region DbContext
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer("Data Source=.;Initial Catalog=SampleCqrs;Integrated Security=true");
             });
-            #endregion
+
+            #endregion DbContext
 
             #region IOC
-            services.AddScoped<WriteMovieRepository>();
-            services.AddScoped<DirectorRepository>();
+
+            services.AddScoped<IMovieWriteRepository, MovieWriteRepository>();
+            services.AddScoped<IMovieReadRepository, IMovieReadRepository>();
+            services.AddScoped<IDirectorWriteRepository, IDirectorWriteRepository>();
 
             services.AddSingleton(typeof(ChannelQueue<>));
-
 
             #region Mongo Singleton Injection
 
@@ -50,13 +54,13 @@ namespace Sample.Web
             var mongoDatabase = mongoClient.GetDatabase("moviesdatabase");
             services.AddSingleton(mongoDatabase);
 
-            #endregion
-
+            #endregion Mongo Singleton Injection
 
             services.AddScoped<ReadMovieRepository>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            #endregion
+
+            #endregion IOC
 
             services.AddMediatR(typeof(AddMovieCommand).Assembly);
 

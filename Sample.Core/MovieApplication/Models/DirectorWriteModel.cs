@@ -1,5 +1,4 @@
-﻿using Sample.DAL.Model.WriteModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Sample.Core.MovieApplication.Models
 {
@@ -9,6 +8,6 @@ namespace Sample.Core.MovieApplication.Models
 
         public string FullName { get; set; }
 
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<MovieWriteModel> Movies { get; set; }
     }
 }

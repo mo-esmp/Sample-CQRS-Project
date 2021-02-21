@@ -1,30 +1,37 @@
-﻿using System.Threading;
+﻿using MongoDB.Driver;
+using Sample.Core.MovieApplication.Models;
+using Sample.Core.MovieApplication.Repositories;
+using Sample.DAL.EntityFramework.ModelConfigurations;
+using Sample.DAL.Mongo.ReadRepositories.Common;
+using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Driver;
-using Sample.DAL.Model.ReadModels;
-using Sample.DAL.ReadRepositories.Common;
 
-namespace Sample.DAL.ReadRepositories
+namespace Sample.DAL.Mongo.ReadRepositories
 {
-    public class ReadMovieRepository : BaseReadRepository<Movie>
+    public class ReadMovieRepository : BaseReadRepository<MovieReadModel>, IMovieReadRepository
     {
         public ReadMovieRepository(IMongoDatabase db) : base(db)
         {
         }
 
-        public Task<Movie> GetByMovieIdAsync(int movieId, CancellationToken cancellationToken = default)
+        static ReadMovieRepository()
         {
-            return base.FirstOrDefaultAsync(movie => movie.MovieId == movieId, cancellationToken);
+            new MovieConfiguration();
         }
 
-        public Task<Movie> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        public Task DeleteByIdAsync(int movieId, CancellationToken cancellationToken = default)
         {
-            return base.FirstOrDefaultAsync(movie => movie.Name == name, cancellationToken);
+            return DeleteAsync(m => m.MovieId == movieId, cancellationToken);
         }
 
-        public Task DeleteByMovieIdAsync(int movieId, CancellationToken cancellationToken = default)
+        public Task<MovieReadModel> GetByIdAsync(int movieId, CancellationToken cancellationToken = default)
         {
-            return base.DeleteAsync(m => m.MovieId == movieId, cancellationToken);
+            return FirstOrDefaultAsync(movie => movie.MovieId == movieId, cancellationToken);
+        }
+
+        public Task<MovieReadModel> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return FirstOrDefaultAsync(movie => movie.Name == name, cancellationToken);
         }
     }
 }

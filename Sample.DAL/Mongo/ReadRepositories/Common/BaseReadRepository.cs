@@ -1,16 +1,17 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MongoDB.Driver;
 
-namespace Sample.DAL.ReadRepositories.Common
+namespace Sample.DAL.Mongo.ReadRepositories.Common
 {
     public class BaseReadRepository<TEntity>
         where TEntity : class, new()
     {
         public IMongoClient MongoClient { get; }
+
         public IMongoDatabase Db { get; }
 
         public IMongoCollection<TEntity> Collection { get; }

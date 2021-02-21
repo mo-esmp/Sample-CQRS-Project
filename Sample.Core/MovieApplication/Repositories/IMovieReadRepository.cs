@@ -6,6 +6,8 @@ namespace Sample.Core.MovieApplication.Repositories
 {
     public interface IMovieReadRepository
     {
+        Task AddAsync(MovieReadModel movie, CancellationToken cancellationToken = default);
+
         Task DeleteByIdAsync(int movieId, CancellationToken cancellationToken = default);
 
         Task<MovieReadModel> GetByIdAsync(int movieId, CancellationToken cancellationToken = default);

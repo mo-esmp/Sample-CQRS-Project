@@ -1,23 +1,23 @@
-﻿using System.Threading;
+﻿using MediatR;
+using Sample.Core.MovieApplication.Models;
+using Sample.Core.MovieApplication.Repositories;
+using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using Sample.DAL.Model.ReadModels;
-using Sample.DAL.ReadRepositories;
 
 namespace Sample.Core.MovieApplication.Queries.GetMovieByName
 {
-    public class GetMovieByNameQueryHandler : IRequestHandler<GetMovieByNameQuery, Movie>
+    public class GetMovieByNameQueryHandler : IRequestHandler<GetMovieByNameQuery, MovieReadModel>
     {
-        private readonly ReadMovieRepository _readMovieRepository;
+        private readonly IMovieReadRepository _repository;
 
-        public GetMovieByNameQueryHandler(ReadMovieRepository readMovieRepository)
+        public GetMovieByNameQueryHandler(IMovieReadRepository repository)
         {
-            _readMovieRepository = readMovieRepository;
+            _repository = repository;
         }
 
-        public Task<Movie> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)
+        public Task<MovieReadModel> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)
         {
-            return _readMovieRepository.GetByNameAsync(request.MovieName, cancellationToken);
+            return _repository.GetByNameAsync(request.MovieName, cancellationToken);
         }
     }
 }

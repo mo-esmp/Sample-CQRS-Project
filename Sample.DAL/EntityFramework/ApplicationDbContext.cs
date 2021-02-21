@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sample.DAL.Model.WriteModels;
+using Sample.Core.MovieApplication.Models;
 
-namespace Sample.DAL
+namespace Sample.DAL.EntityFramework
 {
     public class ApplicationDbContext : DbContext
     {
@@ -10,7 +10,15 @@ namespace Sample.DAL
         {
         }
 
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Director> Directors { get; set; }
+        public DbSet<MovieWriteModel> Movies { get; set; }
+
+        public DbSet<DirectorWriteModel> Directors { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
