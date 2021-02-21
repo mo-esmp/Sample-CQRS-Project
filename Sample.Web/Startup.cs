@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using Sample.Core.Common;
 using Sample.Core.Common.BaseChannel;
 using Sample.Core.Common.Pipelines;
 using Sample.Core.MovieApplication.BackgroundWorker.AddReadMovie;
@@ -42,9 +43,10 @@ namespace Sample.Web
 
             #region IOC
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IMovieWriteRepository, MovieWriteRepository>();
-            services.AddScoped<IMovieReadRepository, IMovieReadRepository>();
-            services.AddScoped<IDirectorWriteRepository, IDirectorWriteRepository>();
+            services.AddScoped<IMovieReadRepository, MovieReadRepository>();
+            services.AddScoped<IDirectorWriteRepository, DirectorWriteRepository>();
 
             services.AddSingleton(typeof(ChannelQueue<>));
 
@@ -55,8 +57,6 @@ namespace Sample.Web
             services.AddSingleton(mongoDatabase);
 
             #endregion Mongo Singleton Injection
-
-            services.AddScoped<ReadMovieRepository>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 

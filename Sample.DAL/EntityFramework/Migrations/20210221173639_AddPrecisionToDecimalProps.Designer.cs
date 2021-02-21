@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sample.DAL.EntityFramework;
 
 namespace Sample.DAL.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210221173639_AddPrecisionToDecimalProps")]
+    partial class AddPrecisionToDecimalProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,8 +52,8 @@ namespace Sample.DAL.EntityFramework.Migrations
                     b.Property<int>("DirectorId")
                         .HasColumnType("int");
 
-                    b.Property<double>("ImdbRate")
-                        .HasColumnType("float");
+                    b.Property<decimal>("ImdbRate")
+                        .HasColumnType("decimal(2,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()

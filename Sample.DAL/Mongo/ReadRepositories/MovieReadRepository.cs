@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Sample.DAL.Mongo.ReadRepositories
 {
-    public class ReadMovieRepository : BaseReadRepository<MovieReadModel>, IMovieReadRepository
+    public class MovieReadRepository : BaseReadRepository<MovieReadModel>, IMovieReadRepository
     {
-        public ReadMovieRepository(IMongoDatabase db) : base(db)
+        public MovieReadRepository(IMongoDatabase db) : base(db)
         {
         }
 
-        static ReadMovieRepository()
+        static MovieReadRepository()
         {
             new MovieConfiguration();
         }

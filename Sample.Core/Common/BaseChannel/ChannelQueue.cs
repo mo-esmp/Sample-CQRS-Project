@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -9,7 +7,7 @@ namespace Sample.Core.Common.BaseChannel
 {
     public class ChannelQueue<TMessage> where TMessage : class
     {
-        private Channel<TMessage> _serviceChannel;
+        private readonly Channel<TMessage> _serviceChannel;
 
         public ChannelQueue()
         {

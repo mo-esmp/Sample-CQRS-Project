@@ -10,6 +10,7 @@ namespace Sample.DAL.EntityFramework.ModelConfigurations
         {
             builder.Property(p => p.Name).IsUnicode().HasMaxLength(256).IsRequired();
             builder.Property(p => p.PublishDate).HasColumnType("datetime");
+            builder.Property(p => p.BoxOffice).HasColumnType("decimal(18,2)");
         }
     }
 }

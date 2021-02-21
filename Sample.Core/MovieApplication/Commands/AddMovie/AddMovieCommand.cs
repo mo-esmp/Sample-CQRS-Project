@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.ComponentModel.DataAnnotations;
-using MediatR;
 
 namespace Sample.Core.MovieApplication.Commands.AddMovie
 {
@@ -13,7 +13,7 @@ namespace Sample.Core.MovieApplication.Commands.AddMovie
         public DateTime PublishYear { get; set; }
 
         [Required]
-        public decimal ImdbRate { get; set; }
+        public double ImdbRate { get; set; }
 
         [Required]
         public decimal BoxOffice { get; set; }

@@ -10,7 +10,7 @@ namespace Sample.Core.MovieApplication.Models
 
         public DateTime PublishDate { get; set; }
 
-        public decimal ImdbRate { get; set; }
+        public double ImdbRate { get; set; }
 
         public decimal BoxOffice { get; set; }
 
